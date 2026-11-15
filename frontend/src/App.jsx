@@ -22,6 +22,8 @@ function handleMapClick(event) {
   const col = Math.min(249, Math.floor((x/bounds.width)*250));
   const row = Math.min(284, Math.floor((y/bounds.height) *285));
 
+  setPath([]);
+  
   if (selectionMode==="start"){
     setStart({row, col});
 
