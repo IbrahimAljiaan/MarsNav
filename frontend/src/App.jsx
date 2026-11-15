@@ -6,6 +6,57 @@ import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+  const [start, setStart] = useState(null);
+  const [goal, setGoal] = useState(null);
+  const [selectionMode, setSelectionMode] = useState("start");
+
+
+
+function handleMapClick(event) {
+  const image = event.currentTarget;
+  const bounds = image.getBoundingClientRect();
+
+  const x = event.clientX - bounds.left;
+  const y = event.clientY - bounds.top;
+
+
+  const col = Math.min(249, Math.floor((x/bounds.width)*250));
+  const row = Math.min(284, Math.floor((y/bounds.height) *285));
+
+  if (selectionMode==="start"){
+    setStart({row, col});
+
+  } else {
+
+    setGoal({row, col});
+  }
+
+
+
+
+
+}
+async function handleFindRoute() {
+  try {
+    const response = await fetch("http://localhost:8000/route", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+      start: [start.row, start.col],
+      finish: [goal.row, goal.col],
+}),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Backend returned HTTP ${response.status}`);
+    }
+
+    const result = await response.json();
+    console.log("Route response:", result);
+  } catch (error) {
+    console.error("Route request failed:", error);
+  }
+}
 
   return (
     <>
@@ -17,9 +68,26 @@ function App() {
         </div>
         <div>
           <h1>MarsNav</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
+          <img
+            src="/FrontEndMap.png"
+            alt="Orbital map of Jezero Crater"
+            onClick={handleMapClick}
+          />
+
+          <div>
+            <button type="button" onClick={() => setSelectionMode("start")}>
+              Set start
+            </button>
+            <button type="button" onClick={() => setSelectionMode("goal")}>
+              Set destination
+            </button>
+          </div>
+          <p>Click the map to set the {selectionMode === "start" ? "start" : "destination"}.</p>
+          <p>Start: {start ? `Row ${start.row}, Column ${start.col}` : "Not set"}</p>
+          <p>Destination: {goal ? `Row ${goal.row}, Column ${goal.col}` : "Not set"}</p>
+          <button type="button" onClick={handleFindRoute} disabled={!start || !goal}>
+             Find route
+          </button>
         </div>
         <button
           type="button"
