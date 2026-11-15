@@ -182,3 +182,103 @@
     border-right-color: var(--border);
   }
 }
+
+.map-frame {
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+}
+
+.map-frame img {
+  display: block;
+  max-width: 100%;
+}
+
+.map-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.marsnav {
+  width: min(100% - 2rem, 680px);
+  margin: 0 auto;
+  padding: 2rem 0;
+  text-align: left;
+  color: #f1eee9;
+}
+
+.marsnav-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.marsnav-header h1 {
+  margin: 0;
+  font-size: clamp(2rem, 6vw, 3rem);
+}
+
+.marsnav p {
+  margin: 0;
+  color: #bab8b3;
+}
+
+.marsnav .map-frame {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.route-controls {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #20242b;
+  border: 1px solid #383f49;
+  border-radius: 12px;
+}
+
+.route-buttons,
+.route-coordinates {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.route-buttons button {
+  padding: 0.6rem 0.85rem;
+  border: 1px solid #565f6b;
+  border-radius: 8px;
+  background: #2b313a;
+  color: #f1eee9;
+  font: inherit;
+  cursor: pointer;
+}
+
+.route-buttons button[aria-pressed="true"] {
+  border-color: #78d9e8;
+  background: #253c43;
+}
+
+.route-buttons .find-route {
+  background: #78d9e8;
+  color: #102025;
+  font-weight: 700;
+}
+
+.route-buttons button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.route-coordinates strong {
+  display: block;
+  color: #f1eee9;
+}
